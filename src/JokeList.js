@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { v4 as uuid4 } from "uuid";
 import "./JokeList.css";
+import Joke from "./Joke";
 
 const JokeList = () => {
-    const [dadJokes, setDadJokes] = useState([]);
+    const [dadJokes, setDadJokes] = useState({ dadjokes: [] });
     const numJokesToGet = 10;
 
     useEffect(() => {
@@ -28,12 +30,32 @@ const JokeList = () => {
             let jokes = [];
             while (jokes.length < numJokesToGet) {
                 const res = await getData();
-                jokes.push({ joke: res, vote: 0 });
+                jokes.push({ id: uuid4(), text: res, vote: 0 });
             }
+            console.log(jokes);
             setDadJokes(jokes);
+            console.log(dadJokes);
         }
         getJokes();
     }, []);
+
+    /* 
+    const handleVote(id, delta) {
+        this.setState(st => ({
+            jokes: st.jokes.map(j => j.id === id ? { ...j, votes: j.votes + delta } : j)
+        }))
+    } */
+
+    const handleVote = (id, delta) => {
+        setDadJokes((prevState) => {
+            return {
+                ...prevState,
+                vote: prevState.map((j) =>
+                    j.id === id ? { ...j, votes: j.votes + delta } : j
+                ),
+            };
+        });
+    };
 
     return (
         <div className="JokeList">
@@ -45,9 +67,21 @@ const JokeList = () => {
                 <button className="JokeList-getmore">New Jokes</button>
             </div>
             <div className="JokeList-jokes">
-                {dadJokes.map((j) => {
-                    return <div>{j.joke}</div>;
-                })}
+                {/*{dadJokes.dadjokes.map((j) => {
+                    return (
+                        <Joke
+                            key={j.id}
+                            text={j.text}
+                            votes={j.vote}
+                            upvote={() => {
+                                handleVote(j.id, 1);
+                            }}
+                            downvote={() => {
+                                handleVote(j.id, -1);
+                            }}
+                        />
+                    );
+                })}*/}
             </div>
         </div>
     );
