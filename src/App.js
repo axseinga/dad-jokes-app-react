@@ -3,7 +3,11 @@ import "./App.css";
 import JokeList from "./JokeList";
 
 function App() {
-    return <JokeList />;
+    return (
+        <div className="App">
+            <JokeList />
+        </div>
+    );
 }
 
 export default App;
