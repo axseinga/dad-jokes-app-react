@@ -4,7 +4,7 @@ import "./JokeList.css";
 import Joke from "./Joke";
 
 const JokeList = () => {
-    const [dadJokes, setDadJokes] = useState({ dadjokes: [] });
+    const [dadJokes, setDadJokes] = useState([]);
     const numJokesToGet = 10;
 
     useEffect(() => {
@@ -32,29 +32,19 @@ const JokeList = () => {
                 const res = await getData();
                 jokes.push({ id: uuid4(), text: res, vote: 0 });
             }
-            console.log(jokes);
             setDadJokes(jokes);
-            console.log(dadJokes);
         }
         getJokes();
     }, []);
 
-    /* 
-    const handleVote(id, delta) {
-        this.setState(st => ({
-            jokes: st.jokes.map(j => j.id === id ? { ...j, votes: j.votes + delta } : j)
-        }))
-    } */
-
     const handleVote = (id, delta) => {
-        setDadJokes((prevState) => {
-            return {
-                ...prevState,
-                vote: prevState.map((j) =>
-                    j.id === id ? { ...j, votes: j.votes + delta } : j
-                ),
-            };
+        console.log(dadJokes);
+        let updatedDadJokes = dadJokes.map((d) => {
+            if (d.id === id) {
+                return { ...d, vote: d.vote + delta };
+            } else return { ...d };
         });
+        setDadJokes(updatedDadJokes);
     };
 
     return (
@@ -67,7 +57,7 @@ const JokeList = () => {
                 <button className="JokeList-getmore">New Jokes</button>
             </div>
             <div className="JokeList-jokes">
-                {/*{dadJokes.dadjokes.map((j) => {
+                {dadJokes.map((j) => {
                     return (
                         <Joke
                             key={j.id}
@@ -81,7 +71,7 @@ const JokeList = () => {
                             }}
                         />
                     );
-                })}*/}
+                })}
             </div>
         </div>
     );
