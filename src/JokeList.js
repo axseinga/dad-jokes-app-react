@@ -38,7 +38,6 @@ const JokeList = () => {
     }, []);
 
     const handleVote = (id, delta) => {
-        console.log(dadJokes);
         let updatedDadJokes = dadJokes.map((d) => {
             if (d.id === id) {
                 return { ...d, vote: d.vote + delta };
