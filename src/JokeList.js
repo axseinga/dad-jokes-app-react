@@ -30,22 +30,27 @@ const JokeList = () => {
     }
 
     async function getJokes() {
-        let jokes = [];
-        const seenJokes = new Set(dadJokes.map((j) => j.text));
-        while (jokes.length < numJokesToGet) {
-            const res = await getData();
-            let newJoke = res;
-            if (!seenJokes.has(newJoke)) {
-                jokes.push({ id: uuid4(), text: newJoke, vote: 0 });
-            } else {
-                console.log("FOUND A DUPLICATE");
-                console.log(newJoke);
+        try {
+            let jokes = [];
+            const seenJokes = new Set(dadJokes.map((j) => j.text));
+            while (jokes.length < numJokesToGet) {
+                const res = await getData();
+                let newJoke = res;
+                if (!seenJokes.has(newJoke)) {
+                    jokes.push({ id: uuid4(), text: newJoke, vote: 0 });
+                } else {
+                    console.log("FOUND A DUPLICATE");
+                    console.log(newJoke);
+                }
             }
+            const newDadJokes = dadJokes.concat(jokes);
+            setDadJokes(newDadJokes);
+            setIsLoading(false);
+            window.localStorage.setItem("jokes", JSON.stringify(newDadJokes));
+        } catch (error) {
+            alert(error);
+            setIsLoading(false);
         }
-        const newDadJokes = dadJokes.concat(jokes);
-        setDadJokes(newDadJokes);
-        setIsLoading(false);
-        window.localStorage.setItem("jokes", JSON.stringify(newDadJokes));
     }
 
     useEffect(() => {
@@ -67,6 +72,8 @@ const JokeList = () => {
         getJokes();
     };
 
+    let sortedJokes = dadJokes.sort((a, b) => b.vote - a.vote);
+
     return isLoading ? (
         <div className="spinner">
             <i className="far fa-8x fa-laugh fa-spin" />
@@ -84,7 +91,7 @@ const JokeList = () => {
                 </button>
             </div>
             <div className="JokeList-jokes">
-                {dadJokes.map((j) => {
+                {sortedJokes.map((j) => {
                     return (
                         <Joke
                             key={j.id}
