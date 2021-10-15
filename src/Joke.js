@@ -3,9 +3,7 @@ import "./Joke.css";
 
 const Joke = (props) => {
     const votes = props.votes;
-    console.log(votes);
     const getColor = (votes) => {
-        console.log(votes);
         if (votes >= 15) {
             return "#4CAF50";
         } else if (votes >= 12) {
