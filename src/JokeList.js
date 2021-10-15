@@ -33,8 +33,9 @@ const JokeList = () => {
             const res = await getData();
             jokes.push({ id: uuid4(), text: res, vote: 0 });
         }
-        setDadJokes(jokes);
-        window.localStorage.setItem("jokes", JSON.stringify(jokes));
+        const newDadJokes = dadJokes.concat(jokes);
+        setDadJokes(newDadJokes);
+        window.localStorage.setItem("jokes", JSON.stringify(newDadJokes));
     }
 
     useEffect(() => {
@@ -48,6 +49,11 @@ const JokeList = () => {
             } else return { ...d };
         });
         setDadJokes(updatedDadJokes);
+        window.localStorage.setItem("jokes", JSON.stringify(updatedDadJokes));
+    };
+
+    const handleClick = () => {
+        getJokes();
     };
 
     return (
@@ -57,7 +63,9 @@ const JokeList = () => {
                     <span>Dad </span> Jokes
                 </h1>
                 <img src="https://assets.dryicons.com/uploads/icon/svg/8927/0eb14c71-38f2-433a-bfc8-23d9c99b3647.svg" />
-                <button className="JokeList-getmore">New Jokes</button>
+                <button className="JokeList-getmore" onClick={handleClick}>
+                    New Jokes
+                </button>
             </div>
             <div className="JokeList-jokes">
                 {dadJokes.map((j) => {
