@@ -44,3 +44,12 @@
     width: 90%;
     overflow: scroll;
 }
+
+.JokeList-spinner {
+    color: white;
+    text-align: center;
+}
+
+.JokeList-spinner-text {
+    color: white;
+}
