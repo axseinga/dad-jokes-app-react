@@ -72,6 +72,11 @@ const JokeList = () => {
         getJokes();
     };
 
+    const handleClear = () => {
+        window.localStorage.clear();
+        setDadJokes([]);
+    };
+
     let sortedJokes = dadJokes.sort((a, b) => b.vote - a.vote);
 
     return isLoading ? (
@@ -88,6 +93,9 @@ const JokeList = () => {
                 <img src="https://assets.dryicons.com/uploads/icon/svg/8927/0eb14c71-38f2-433a-bfc8-23d9c99b3647.svg" />
                 <button className="JokeList-getmore" onClick={handleClick}>
                     New Jokes
+                </button>
+                <button className="JokeList-delete" onClick={handleClear}>
+                    Delete all jokes
                 </button>
             </div>
             <div className="JokeList-jokes">

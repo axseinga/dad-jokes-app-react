@@ -84,7 +84,29 @@
     transition: 0.8s cubic-bezier(0.2, 1, 0.2, 1);
 }
 
-.JokeList-getmore:hover {
+.JokeList-delete {
+    font-size: 0.8rem;
+    width: 40%;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    background: linear-gradient(
+        135deg,
+        #f44336 0%,
+        #f44336 50%,
+        #1f2833 50%,
+        #1f2833 100%
+    );
+    color: white;
+    font-weight: 700;
+    border: none;
+    outline: none;
+    box-shadow: 0 10px 38px rgba(0, 0, 0, 0.2), 0 10px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.8s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+.JokeList-getmore:hover,
+.JokeList-delete:hover {
     transform: translate(-2px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
 }
