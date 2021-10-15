@@ -31,9 +31,16 @@ const JokeList = () => {
 
     async function getJokes() {
         let jokes = [];
+        const seenJokes = new Set(dadJokes.map((j) => j.text));
         while (jokes.length < numJokesToGet) {
             const res = await getData();
-            jokes.push({ id: uuid4(), text: res, vote: 0 });
+            let newJoke = res;
+            if (!seenJokes.has(newJoke)) {
+                jokes.push({ id: uuid4(), text: newJoke, vote: 0 });
+            } else {
+                console.log("FOUND A DUPLICATE");
+                console.log(newJoke);
+            }
         }
         const newDadJokes = dadJokes.concat(jokes);
         setDadJokes(newDadJokes);
